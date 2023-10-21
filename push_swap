@@ -1,231 +1,4 @@
-NAME = push_swap
-
-CC = gcc
-
-CFLAGS = -Wall -Wextra -Werror
-
-SRCS = operation.c push_swap.c
-
-OBJS = $(SRCS:.c=.o)
-
-all: $(NAME)
-
-$(NAME): $(OBJS)
-        $(CC) $(CFLAGS) -o $(NAME) $(OBJS)
-
-clean:
-        rm -f $(OBJS)
-
-fclean: clean
-        rm -f $(NAME)
-
-re: fclean all
-
-.PHONY: all clean fclean re
 #include "push_swap.h"
-
-Element* creerElement();
-
-void    ft_putstr(char *str)
-{
-        int i;
-
-        i = 0;
-        while (str[i] != '\0')
-        {
-                write(1, &str[i], 1);
-                i++;
-        }
-}
-
-void sa(Element **liste, int afficher) 
-{
-    if (*liste != NULL && (*liste)->suivant != NULL) {
-        int temp = (*liste)->valeur;
-        (*liste)->valeur = (*liste)->suivant->valeur;
-        (*liste)->suivant->valeur = temp;
-    }
-    if(afficher)
-        ft_putstr("sa");
-}
-void sb(Element **liste)
-{
-    sa(liste, 0);
-    ft_putstr("sb");
-}
-void ss(Element **liste_a, Element **liste_b) 
-{
-    sa(liste_a, 0);
-    sa(liste_b, 0);
-    ft_putstr("ss");
-}
-
-void pa(Element **liste_a, Element **liste_b, int afficher)
-{
-    if (*liste_b != NULL) 
-    {
-        Element* tmp = creerElement();
-        int values = (*liste_b)->valeur;
-        tmp->valeur = values;
-        tmp->suivant = *liste_a;
-        *liste_a = tmp;
-        Element* tempB = *liste_b;
-        *liste_b = (*liste_b)->suivant;
-        free(tempB);
-    }
-    if(afficher)
-        ft_putstr("pa\n");
-}
-void pb(Element **liste_a, Element **liste_b)
-{
-    if (*liste_a != NULL) 
-    {
-        Element* tmp = creerElement();
-        tmp->valeur = (*liste_a)->valeur;
-        tmp->suivant = *liste_b;
-        *liste_b = tmp;
-
-        Element* tempA = *liste_a;
-        *liste_a = (*liste_a)->suivant;
-        free(tempA);
-    }
-    ft_putstr("pb\n");
-}
-
-void ra(Element **liste_a, int afficher) 
-{
-    if (*liste_a != NULL && (*liste_a)->suivant != NULL) {
-        Element *premierElement = *liste_a;
-        *liste_a = (*liste_a)->suivant;
-        premierElement->suivant = NULL; 
-
-        Element *dernierElement = *liste_a;
-        while (dernierElement->suivant != NULL) {
-            dernierElement = dernierElement->suivant;
-        }
-        dernierElement->suivant = premierElement;
-    }
-    if(afficher)
-        ft_putstr("ra");
-}
-void rb(Element **liste_b)
-{
-    ra(liste_b, 0);
-    ft_putstr("rb");
-}
-void rr(Element **liste_a, Element **liste_b)
-{
-    ra(liste_a, 0);
-    ra(liste_b, 0);
-    ft_putstr("rr");
-}
-
-void rra(Element **liste_a, int afficher) {
-    if (*liste_a != NULL && (*liste_a)->suivant != NULL) {
-        Element *precedent = NULL;
-        Element *courant = *liste_a;
-
-        while (courant->suivant != NULL) {
-            precedent = courant;
-            courant = courant->suivant;
-        }
-
-        if (precedent != NULL) {
-            precedent->suivant = NULL;
-            courant->suivant = *liste_a;
-            *liste_a = courant;
-        }
-    }
-    if(afficher)
-        ft_putstr("rra");
-}
-void rrb(Element **liste_b)
-{
-    rra(liste_b, 0);
-    ft_putstr("rrb");
-}
-void rrr(Element **liste_a, Element **liste_b) {
-    rra(liste_a,0); // Effectuer un reverse rotate sur la liste_a
-    rra(liste_b,0); // Effectuer un reverse rotate sur la liste_b
-    ft_putstr("rrr");
-}
-
-@@F>�
-UH��H�� H�}��E��#�E�Hc�H�E�HкH�ƿ��E��E�Hc�H�E�H����uɐ���UH��H�� H�}��u�H�E�H�H��tBH�E�H�H�H��t2H�E�H���E�H�E�H�HH�E�H���H�E�H�H��U���}�tH�H������UH��H��H�}�H�E��H���H�H������UH��H��H�}�H�u�H�E��H���H�E��H���H�H������UH��H��@H�}�H�uЉU�H�E�H�H��tf��H�E�H�E�H���E�H�E��U��H�E�H�H�E�H�H�E�H�U�H�H�E�H�H�E�H�E�H�H�H�E�H�H�E�H����}�tH�H������UH��H�� H�}�H�u�H�E�H�H��t`��H�E�H�E�H��H�E��H�E�H�H�E�H�H�E�H�U�H�H�E�H�H�E�H�E�H�H�H�E�H�H�E�H���H�H������UH��H�� H�}��u�H�E�H�H��tkH�E�H�H�H��t[H�E�H�H�E�H�E�H�H�H�E�H�H�E�H�H�E�H�H�E��
-                                                                    H�E�H�H�E�H�E�H�H��u�H�E�H�U�H��}�tH�H������UH��H��H�}�H�E��H���H�H������UH��H��H�}�H�u�H�E��H���H�E��H���H�H������UH��H�� H�}��u�H�E�H�H��tsH�E�H�H�H��tcH�E�H�E�H�H�E��H�E�H�E�H�E�H�H�E�H�E�H�H��u�H�}�t&H�E�H�H�E�H�H�E�H�H�E�H�U�H��}�tH�H������UH��H��H�}�H�E��H���H�H������UH��H��H�}�H�u�H�E��H���H�E��H���H�H������sasbsspa
-pb
-rarbrrrrarrbrrrGCC: (Debian 12.2.0-14) 12.2.0zRx
-K                                              PA�C
-puA�C
-j/A�C
-|DA�C
-��A�C
-��A�C
-��A�C
-j/A�C
-DA�C
-��A�C
-j/A�C
-|DA�C
-PPu �/#�D&8�)6;��?c�C/G0D>t�B▒/FIDoperation.cft_putstrwritesasbsspacreerElementfreepbrrarrbrrr0�������������������������������������������������������������"��������)1��������]
-���������
-         �������������������
-��������M
-��������em��������M     \���������
-                  ��������3��������:▒B��������f��������w��������~��������� @P`����8���c 0@t`▒�I.symtab.strtab.shstrtab.rela.text.data.bss.rodata.comment.note.GNU-stack.rela.eh_frame @�`
-▒&��1�&90� BW▒R@(
-                  
-▒��
-@@@@�▒▒▒00   ,,�-�=�=px�-�=�=�888 XXXDDS�td888 P�td0 0 0 ��Q�tdR�td�-�=�=00/lib64/ld-linux-x86-64.so.2GNU��GNU���F��Ak���UC/�
-4��GNU
-      �
-       �e�m▒i B;� � ,"freeputcharatoimalloc__libc_start_main__cxa_finalizeprintfwritelibc.so.6GLIBC_2.34GLIBC_2.2.5_ITM_deregisterTMCloneTable__gmon_start___ITM_registerTMCloneTableH���Ru▒i     ]���@88@�?�?�?�?
-�?
-  @@▒@ (@       H�H��/H��t��H���5�/�%�/@�%�/h������%�/h������%�/h������%�/h������%�/h������%�/h������%J/f�1�I��^H��H���PTE1�1�H�=���.�f.�@H�=i/H�b/H9�tH��.H��t   �����H�=9/H�52/H)�H��H��?H��H�H��tH��.H����fD�����=�.u+UH�=�.H��t
-                                                                                                                 H�=�.�)����d�����.]������w���UH��H�� H�}��E��#�E�Hc�H�E�HкH�ƿ������E��E�Hc�H�E�H����uɐ���UH��H�� H�}��u�H�E�H�H��tBH����������UH��H��@H�}�H�uЉU�H�E�H�H��tf��,H�E�H�E�H���E�H�E��U��H�E�H�H�E�H�H�E�H�U�H�H�E�H�H�E�H�E�H�H�H�E�H�H�E�H��������}�tH��
-                H���.������UH��H�� H�}�H�u�H�E�H�H��t`���H�E�H�E�H��H�E��H�E�H�H�E�H�H�E�H�U�H�H�E�H�H�E�H�E�H�HH�E�H�H�E�H���V���H�0
-                   H����������UH��H�� H�}��u�H�E�H�H��tkH�E�H�H�H��t[H�E�H�H�E�H�E�H�H�H�E�H�H�E�H�H�E�H�H�E��
-                                                                                                              H�E�H�H�E�H�E�H�H��u�H�E�H�U�H��}�tH��
-                                  H���������UH��H��H�}�H�E��H���E���H�j
-                                                                       H����������UH��H��H�}�H�u�H�E��H������H�E��H������H�)
-          H����������UH��H�� H�}��u�H�E�H�H��tsH�E�H�H�H��tcH�E�H�E�H�H�E��H�E�H�E�H�E�H�H�E�H�E�H�H��u�H�}�t&H�E�H�H�E�H�H�E�H�H�E�H�U�H��}�tH��
-H����������UH��H��H�}�H�E��H���=���H�[
-H����������UH��H��H�}�H�u�H�E��H���
-���H�E��H�������H�
-���v������UH��H����H���H�E�H�}�tH�E��H�E�H�H�E���UH��H�� H�}��u�������H�E�H�}�tH�E��U��H�E�H�U�H�H�E�H�E�H�E���UH��H��H�}��(H�E����H�w    H�Ǹ�����H�E�H�H�E�H�}�uѿ
-�c������UH��H��0�}�H�u�H�U�H�E�H�E���E��J�E�H�H��H�E�H�H�H���S����E��U�H�E���H������H�E�H�E؋�PH�E؉�E��E�;E�|�H�E��H�E�H�H��uŸ]�UH��H��H�}�H�u�H�U�H�E�H��H���(���H�U�H�E�H��H���������UH��H��0�}�H�u�H�E�H�E��E�H�U�H�MЋE�H�Ή��Y���H�E�H�E�H�������H�U�H�E�H��H���i���H�E�H�������H�E�H�������� H�E�H�E�H�E�H�H�E�H�E�H���L���H�E�H��u׸��H�H��sasbsspa
-pb
-rarbrrrrarrbrrr%d �▒����▒`���@p����Y���X����x����M���������.��������▒Z���8����X����xs������������������f���▒����86���XK���x��������������zRx
-                         ����"zRx
-                                $����pF▒J
-K                                        �?▒;*3$"D▒��\����PA�C
-p)���uA�C
-j~���/A�C
-�����DA�C
-������A�C
-�.����A�C
-�����A�C
-j▒���/A�C
-\)���DA�C
-�M����A�C
-j����/A�C
-�����DA�C
-t���9A�C
-B���GA�C
-E���JA�C
-�p����A�C
-P����A�C
-G����LA�C
-G����LA�C
-t#���9A�C
-�<����A�C
-�@H
-�▒�▒����o���
-�
- ▒�?��� ▒������o����o���o����o�=6FVfv�8@GCC: (Debian 12.2.0-14) 12.2.0��        | ��� 3@I▒@@U�=|���=���������($����=�0 �▒�?����$A � 0@]OGew�J�@@�N/��▒�����^���L�f�▒9�0@� �8@�� 9${L-]�/|�D@▒H@��"E▒@@QL▒�V�uY}D\�/`�Pj{�D@@� �"�
-                                                                                                               ���Scrt1.o__abi_tagcrtstuff.cderegister_tm_clones__do_global_dtors_auxcompleted.0__do_global_dtors_aux_fini_array_entryframe_dummy__frame_dummy_init_array_entryoperation.cpush_swap.c__FRAME_END___DYNAMIC__GNU_EH_FRAME_HDR_GLOBAL_OFFSET_TABLE_free@GLIBC_2.2.5putchar@GLIBC_2.2.5__libc_start_main@GLIBC_2.34_ITM_deregisterTMCloneTableadd_nbrwrite@GLIBC_2.2.5draw_list_edatasb_finirraprintf@GLIBC_2.2.5pbis_order_descendingis_emptyalgo__data_start__gmon_start____dso_handleremlistelir_liste_IO_stdin_usedcreerElementis_ordermalloc@GLIBC_2.2.5_end__bss_startmainsassrrbft_putstratoi@GLIBC_2.2.5rrr__TMC_END___ITM_registerTMCloneTable__cxa_finalize@GLIBC_2.2.5_initpa.symtab.strtab.shstrtab.interp.note.gnu.property.note.gnu.build-id.note.ABI-tag.gnu.hash.dynsym.dynstr.gnu.version.gnu.version_r.rela.dyn.rela.plt.init.plt.got.text.fini.rodata.eh_frame_hdr.eh_frame.init_array.fini_array.dynamic.got.plt.data.bss.comment▒▒#886XX$I|| W���o��a
-                     ��▒i���q���o��▒~���o�����▒�B���▒��  p�����▒�▒      �  .�0 0 ��!!������=�-��?���?�0@00
-                                                                                                        @@@0@0`0▒06��8▒#include "push_swap.h"
 
 
 Element* creerElement() 
@@ -274,6 +47,7 @@ Element* remlistelir_liste(int argc, char **argv, int *len)
 int is_empty(Element *liste) {
     return liste == NULL;
 }
+
 int is_order(Element *liste)
 {
     while(liste != NULL && liste->suivant != NULL)
@@ -284,6 +58,7 @@ int is_order(Element *liste)
     }
     return 1;
 }
+
 int is_order_descending(Element *liste)
 {
     while(liste != NULL && liste->suivant != NULL)
@@ -294,21 +69,95 @@ int is_order_descending(Element *liste)
     }
     return 1;
 }
+
 void algo(Element **liste, Element **liste_b)
 {
     pb(liste, liste_b);
     pb(liste, liste_b);
 }
 
+int get_rotations_to_top(Element* stack, int num) {
+    int rotations_top = 0;
+    int rotations_bottom = 0;
+    Element* current = stack;
+
+    while (current) {
+        if (current->valeur == num) {
+            break;
+        }
+        rotations_top++;
+        current = current->suivant;
+    }
+
+    rotations_bottom = -rotations_top;
+
+    return (rotations_top < -rotations_bottom) ? rotations_top : rotations_bottom;
+}
+
+int get_rotations_to_correct_position(Element* stack_b, int num) {
+    int rotations_top = 0;
+    int rotations_bottom = 0;
+    Element* current = stack_b;
+    int length = 0;
+
+    while (current) {
+        length++;
+        current = current->suivant;
+    }
+
+    current = stack_b;
+    while (current && current->suivant) {
+        if (current->valeur > num && current->suivant->valeur < num) {
+            break;
+        }
+        rotations_top++;
+        current = current->suivant;
+    }
+
+    rotations_bottom = length - rotations_top;
+
+    return (rotations_top < rotations_bottom) ? rotations_top : -rotations_bottom;
+}
+
+
+int calculate_operations(Element* stack_a, Element* stack_b, int num) {
+    int rotations_a = get_rotations_to_top(stack_a, num);
+    int rotations_b = get_rotations_to_correct_position(stack_b, num);
+
+    return abs(rotations_a) + abs(rotations_b) + 1;
+}
+
+int push_cheapest(Element* stack_a, Element* stack_b) 
+{
+    int min_operations = 600; // Initialiser avec une grande valeur
+    int num_to_push;
+    Element* current = stack_a;
+
+    while (current) {
+        int ops = calculate_operations(stack_a, stack_b, current->valeur);
+         if (ops < min_operations) {
+            min_operations = ops;
+            num_to_push = current->valeur;
+        }
+        current = current->suivant;
+    }
+    printf("min op :%d\n", min_operations);
+    return (num_to_push);
+}
+
+
 int main(int argc, char **argv)
 {
     Element *liste = NULL;
     Element *liste_b = NULL;
     int len = 0;
+    int min;
     liste = remlistelir_liste(argc, argv, &len);
     draw_list(liste);
     algo(&liste,&liste_b);
     draw_list(liste);
+    min = push_cheapest(liste, liste_b);
+    printf(" min : %d\n", min);
     draw_list(liste_b);
     while (liste != NULL) 
     {
@@ -319,25 +168,3 @@ int main(int argc, char **argv)
     return 0;
 }
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <string.h>
-# include <strings.h>
-# include <stddef.h>
-# include <ctype.h>
-
-typedef struct Element {
-    int valeur;
-    struct Element* suivant;
-} Element;
-
-void swap_both(Element **liste_a, Element **liste_b);
-void swap_a(Element **liste);
-void pa(Element **liste_a, Element **liste_b, int afficher);
-void ra(Element **liste_a, int afficher);
-void rr(Element **liste_a, Element **liste_b);
-void ft_putstr(char *str);
-void pb(Element **liste_a, Element **liste_b);
-void rrb(Element **liste_b);
-void sb(Element **liste);
